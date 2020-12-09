@@ -2,10 +2,13 @@ import GlobalStyles from './components/GlobalStyles'
 import CountryList from './components/CountryList'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
+import Region from './components/Region'
 
 const initState = {
   countryList: [],
-  countryListByName: []
+  countryListByName: [],
+  countryListByRegion: [],
+  filterByRegion: '',
 }
 
 const reducer = (state, action) => {
@@ -22,6 +25,16 @@ const reducer = (state, action) => {
       })
         return { ...state, countryListByName }
     }
+    case 'FILTER_BY_REGION': {
+      const { regionSelected } = action.payload
+
+      if(regionSelected === '') {
+        return { ...state, countryListByRegion: [], filterByRegion: '' }
+      }
+
+      const countryListByRegion = state.countryList.filter((country) => country.region === regionSelected)
+      return { ...state, countryListByRegion, filterByRegion: regionSelected }
+    }
   }
 }
 
@@ -32,6 +45,7 @@ function App() {
     <Provider store={store}>
       <div className="App">
         <GlobalStyles />
+        <Region />
         <CountryList />
       </div>
     </Provider>

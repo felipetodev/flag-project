@@ -6,9 +6,20 @@ import { useSelector, useDispatch } from 'react-redux'
 const CountryList = () => {
     const [inputValue, setInputValue] = useState('')
     const dispatch = useDispatch()
-
-    const countryList = useSelector((state) => state.countryList)
+    
     const countryListByName = useSelector((state) => state.countryListByName)
+
+    const countryList = useSelector((state) => {
+        if(state.filterByRegion !== '') {
+            return state.countryListByRegion
+        }
+
+        if(countryListByName.length > 0) {
+            return countryListByName
+        }
+
+        return state.countryList
+    })
     // console.log(countryList)
 
     // const [ countryList, setCountryList ] = useState([])
@@ -57,7 +68,7 @@ const CountryList = () => {
             {countryListByName.length === 0 && inputValue &&
                 <p><strong>{inputValue}</strong> Not Found in Countries.</p>
             }
-            {(countryListByName.length > 0 ? countryListByName : countryList).map((country) => {
+            {countryList.map((country) => {
                 return (
                     <Country
                         key={country.name}
