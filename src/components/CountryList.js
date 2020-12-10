@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Country from './Country'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 
 const CountryList = () => {
-    const [inputValue, setInputValue] = useState('')
     const dispatch = useDispatch()
     
     const countryListByName = useSelector((state) => state.countryListByName)
 
     const countryList = useSelector((state) => {
-        if(state.filterByRegion !== '') {
+        if(state.filterByRegion !== '' && countryListByName.length === 0) {
             return state.countryListByRegion
         }
 
@@ -24,29 +23,11 @@ const CountryList = () => {
 
     // const [ countryList, setCountryList ] = useState([])
 
-    const filterByName = (e) => {
-        // console.log(e.target.value)
-        setInputValue(e.target.value)
-        dispatch({
-            type: 'GET_COUNTRY_BY_NAME',
-            payload: e.target.value,
-        })
-    }
-
-    const clearInput = () => {
-        dispatch({
-            type: 'GET_COUNTRY_BY_NAME',
-            payload: '',
-        })
-
-        setInputValue('')
-    }
-
     useEffect(() => {
         fetch('https://restcountries.eu/rest/v2/all')
             .then(res => res.ok ? res.json() : Promise.reject(res))
             .then(json => {
-                // setCountryList(json) Estado Local
+                // setCountryList(json) <-- Estado Local
                 // console.log(json)
                 // Redux - Estado global
                 dispatch({
@@ -61,13 +42,6 @@ const CountryList = () => {
 
     return (
         <CountryListStyled>
-            <input type="text" value={inputValue} onChange={filterByName} />
-            {inputValue && 
-                <button onClick={clearInput}>X</button>
-            }
-            {countryListByName.length === 0 && inputValue &&
-                <p><strong>{inputValue}</strong> Not Found in Countries.</p>
-            }
             {countryList.map((country) => {
                 return (
                     <Country

@@ -12,6 +12,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     body {
+        background: var(--bg);
         font-family: 'Nunito Sans', sans-serif;
         color: var(---black);
     }

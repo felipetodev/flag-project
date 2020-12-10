@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
 
 const countryListByRegionAction = (regionSelected) => {
     return {
@@ -18,15 +19,22 @@ const Region = () => {
     }
 
     return (
-        <select onChange={onRegionChange} value={filterByRegion} >
+        <RegionFilterStyled onChange={onRegionChange} value={filterByRegion} >
             <option value="">Filter By Region</option>
             <option value="Africa">Africa</option>
             <option value="Americas">Americas</option>
             <option value="Asia">Asia</option>
             <option value="Europe">Europe</option>
             <option value="Oceania">Oceania</option>
-        </select>
+        </RegionFilterStyled>
     )    
 }
+
+const RegionFilterStyled = styled.select`
+    padding: 1.3em;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 9px 0 rgba(0, 0, 0, .05);
+`
 
 export default Region
