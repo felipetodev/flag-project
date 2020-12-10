@@ -64,7 +64,6 @@ const CountryListStyled = styled.div`
     display: grid;
     gap: 2.3em;
     justify-content: center;
-    border: 1px solid red;
     background: var(--bg);
     padding: 4em 2em;
 `
